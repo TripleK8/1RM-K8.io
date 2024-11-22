@@ -9,21 +9,20 @@
         /* พื้นฐาน */
         body {
             font-family: 'Sarabun', sans-serif;
+            background-color: #f7f7f7; /* พื้นหลังสีอ่อน */
             margin: 0;
             padding: 0;
-            color: #333;
-            background-color: #f7f7f7;
-            box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             flex-direction: column;
+            color: #333;
         }
 
         /* กล่องหลัก */
         .container {
-            background-color: #ffffff;
+            background-color: #ffffff; /* พื้นหลังสีขาว */
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -36,13 +35,15 @@
 
         h1 {
             text-align: center;
+            color: #333;
             margin-bottom: 20px;
-            font-size: 2.5rem;
+            font-size: 2.5em;
             font-weight: 500;
         }
 
         h2 {
-            font-size: 1.8rem;
+            color: #333;
+            font-size: 1.8em;
             margin-bottom: 10px;
         }
 
@@ -61,6 +62,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
             font-size: 16px;
+            box-sizing: border-box;
             background-color: #f5f5f5;
             color: #333;
         }
@@ -73,22 +75,21 @@
         button {
             width: 100%;
             padding: 14px;
-            background-color: #20B2AA; /* ฟ้าทะเล */
+            background-color: #20B2AA; /* สีฟ้าทะเล */
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 18px; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้น */
+            font-weight: bold; /* เพิ่มความหนาของฟอนต์ */
             cursor: pointer;
             transition: background-color 0.3s ease;
             margin-bottom: 15px;
         }
 
         button:hover {
-            background-color: #1C8C7B; /* ฟ้าทะเลเข้ม */
+            background-color: #1C8C7B; /* สีฟ้าทะเลเข้มเมื่อ hover */
         }
 
-        /* ส่วนผลลัพธ์ */
         .result, .text-section, .load-result {
             margin-top: 20px;
             padding: 20px;
@@ -110,40 +111,62 @@
             border-radius: 8px;
         }
 
-        /* ปรับขนาดตามอุปกรณ์ */
-        @media (max-width: 768px) {
+        .content {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* การปรับขนาดมือถือ (สำหรับอุปกรณ์ที่มีหน้าจอเล็กกว่า 600px) */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
             h1 {
-                font-size: 2rem;
+                font-size: 2em; /* ลดขนาดหัวข้อหลักให้พอดีกับหน้าจอเล็ก */
             }
+
             h2 {
-                font-size: 1.5rem;
+                font-size: 1.5em; /* ปรับขนาดหัวข้อรอง */
             }
+
             .grid-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* ให้กริดแสดงแค่คอลัมน์เดียว */
             }
+
             input[type="number"], input[type="text"], select {
-                font-size: 14px;
-                padding: 12px;
+                font-size: 14px; /* ลดขนาดฟอนต์ในช่องกรอกข้อมูล */
+                padding: 12px; /* ลดขนาดช่องกรอกข้อมูล */
             }
+
             button {
                 padding: 12px;
-                font-size: 16px;
+                font-size: 16px; /* ปรับขนาดปุ่มให้พอดีกับมือถือ */
             }
         }
 
-        @media (max-width: 1024px) and (min-width: 768px) {
+        /* การปรับขนาดสำหรับ iPad และแท็บเล็ต (ระหว่าง 600px ถึง 1024px) */
+        @media (max-width: 1024px) and (min-width: 600px) {
             .container {
                 padding: 25px;
             }
+
             h1 {
-                font-size: 2.2rem;
+                font-size: 2.2em; /* ปรับขนาดหัวข้อให้เหมาะสม */
             }
+
             h2 {
-                font-size: 1.7rem;
+                font-size: 1.7em;
             }
+
+            input[type="number"], input[type="text"], select {
+                font-size: 15px;
+                padding: 13px;
+            }
+
             button {
                 padding: 13px;
-                font-size: 17px;
+                font-size: 17px; /* ขนาดปุ่มที่เหมาะสม */
             }
         }
     </style>
@@ -153,6 +176,7 @@
     <div class="container">
         <h1>Training Methods & 1RM Calculator</h1>
 
+        <!-- ส่วนป้อนข้อมูลสำหรับ 1RM & Training Load Calculator -->
         <h2>1RM Calculator</h2>
         <label for="weight">Enter Weight (kg):</label>
         <input type="number" id="weight" placeholder="Enter weight in kg">
@@ -162,8 +186,10 @@
 
         <button onclick="calculateRM()">Calculate 1RM & Training Loads</button>
 
+        <!-- ตารางผลลัพธ์สำหรับ 1RM -->
         <div class="result" id="result"></div>
 
+        <!-- ส่วนเลือกประเภทการฝึก -->
         <h2>Training Methods</h2>
         <button onclick="showContent('strength')">Muscular Strength</button>
         <button onclick="showContent('power')">Muscular Power</button>
@@ -172,6 +198,7 @@
 
         <div class="content" id="content"></div>
 
+        <!-- ตารางผลลัพธ์ทุก % -->
         <div class="section">
             <h3>Training Loads by Percentage</h3>
             <label for="training-percentage">Enter Desired Percentage (%):</label>
@@ -184,8 +211,9 @@
     </div>
 
     <script>
-        let average1RM = 0;
+        let average1RM = 0; // ตัวแปรเก็บค่า Average 1RM
 
+        // ฟังก์ชันคำนวณ 1RM
         function calculateRM() {
             const weight = parseFloat(document.getElementById('weight').value);
             const reps = parseInt(document.getElementById('reps').value);
@@ -210,6 +238,7 @@
             `;
         }
 
+        // ฟังก์ชันแสดงประเภทการฝึก
         function showContent(type) {
             let content = '';
             if (type === 'strength') {
@@ -244,6 +273,7 @@
             document.getElementById('content').innerHTML = content;
         }
 
+        // ฟังก์ชันคำนวณ Training Load (ปัดทศนิยมตามกฎ)
         function calculateTrainingLoad() {
             const percentage = parseFloat(document.getElementById('training-percentage').value);
 
@@ -252,6 +282,7 @@
                 return;
             }
 
+            // ใช้ Math.round() เพื่อปัดทศนิยมตามกฎที่ต้องการ
             const load = Math.round(average1RM * (percentage / 100));
             document.getElementById('load-result').innerHTML = `
                 <div class="grid-item">
@@ -260,6 +291,140 @@
             `;
         }
     </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* พื้นฐาน */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f9;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #4CAF50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* ปรับแต่งปุ่ม */
+        button {
+            padding: 12px 20px;
+            background-color: #20B2AA; /* สีฟ้าทะเล */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1C8C7B;
+        }
+
+        /* Media Query สำหรับมือถือ */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            /* ทำให้ .container รองรับขนาดหน้าจอ */
+            .container {
+                padding: 15px;
+            }
+        }
+
+        /* Media Query สำหรับแท็บเล็ต */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            section h2 {
+                font-size: 1.6rem;
+            }
+
+            button {
+                padding: 11px 18px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Media Query สำหรับหน้าจอคอมพิวเตอร์ใหญ่ */
+        @media (min-width: 1200px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
 
 </body>
 </html>
