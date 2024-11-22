@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Methods & 1RM Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* พื้นฐาน */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f7f7f7; /* พื้นหลังสีอ่อน */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            color: #333;
+        }
+
+        /* กล่องหลัก */
+        .container {
+            background-color: #ffffff; /* พื้นหลังสีขาว */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 500;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 16px;
+        }
+
+        input[type="number"], input[type="text"], select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #20B2AA; /* สีฟ้าทะเล */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้น */
+            font-weight: bold; /* เพิ่มความหนาของฟอนต์ */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            background-color: #1C8C7B; /* สีฟ้าทะเลเข้มเมื่อ hover */
+        }
+
+        .result, .text-section, .load-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .grid-item {
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .content {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* การปรับขนาดมือถือ */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            input[type="number"], input[type="text"], select {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 16px; /* ปรับขนาดตัวอักษรในมือถือ */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Training Methods & 1RM Calculator</h1>
+
+        <!-- ส่วนป้อนข้อมูลสำหรับ 1RM & Training Load Calculator -->
+        <h2>1RM Calculator</h2>
+        <label for="weight">Enter Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter weight in kg">
+
+        <label for="reps">Enter Reps:</label>
+        <input type="number" id="reps" placeholder="Enter reps">
+
+        <button onclick="calculateRM()">Calculate 1RM & Training Loads</button>
+
+        <!-- ตารางผลลัพธ์สำหรับ 1RM -->
+        <div class="result" id="result"></div>
+
+        <!-- ส่วนเลือกประเภทการฝึก -->
+        <h2>Training Methods</h2>
+        <button onclick="showContent('strength')">Muscular Strength</button>
+        <button onclick="showContent('power')">Muscular Power</button>
+        <button onclick="showContent('hypertrophy')">Muscular Hypertrophy</button>
+        <button onclick="showContent('endurance')">Muscular Endurance</button>
+
+        <div class="content" id="content"></div>
+
+        <!-- ตารางผลลัพธ์ทุก % -->
+        <div class="section">
+            <h3>Training Loads by Percentage</h3>
+            <label for="training-percentage">Enter Desired Percentage (%):</label>
+            <input type="number" id="training-percentage" placeholder="Enter % of 1RM">
+
+            <button onclick="calculateTrainingLoad()">Calculate Training Load</button>
+
+            <div id="load-result" class="grid-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let average1RM = 0; // ตัวแปรเก็บค่า Average 1RM
+
+        // ฟังก์ชันคำนวณ 1RM
+        function calculateRM() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const reps = parseInt(document.getElementById('reps').value);
+
+            if (isNaN(weight) || isNaN(reps) || weight <= 0 || reps <= 0) {
+                alert("Please enter valid weight and reps.");
+                return;
+            }
+
+            const epley = weight * (1 + (reps / 30));
+            const brzycki = weight / (1.0278 - 0.0278 * reps);
+            const lombardi = weight * Math.pow(reps, 0.10);
+            const oconner = weight * (1 + 0.025 * reps);
+            average1RM = (epley + brzycki + lombardi + oconner) / 4;
+
+            document.getElementById('result').innerHTML = `
+                <p><strong>Epley Formula:</strong> ${Math.round(epley)} kg</p>
+                <p><strong>Brzycki Formula:</strong> ${Math.round(brzycki)} kg</p>
+                <p><strong>Lombardi Formula:</strong> ${Math.round(lombardi)} kg</p>
+                <p><strong>O'Conner Formula:</strong> ${Math.round(oconner)} kg</p>
+                <p><strong>Average 1RM:</strong> ${Math.round(average1RM)} kg</p>
+            `;
+        }
+
+        // ฟังก์ชันแสดงประเภทการฝึก
+        function showContent(type) {
+            let content = '';
+            if (type === 'strength') {
+                content = `
+                    <h2>Muscular Strength</h2>
+                    <p><strong>Load:</strong> 60-70% 1RM for novice to intermediate; 80-100% for advanced</p>
+                    <p><strong>Volume:</strong> 1-3 sets of 8-12 repetitions for novice to intermediate; 2-6 sets of 1-8 repetitions for advanced</p>
+                    <p><strong>Rest period:</strong> 2-3 min for higher intense exercises that use heavier loads; 1-2 minutes between the lower intense exercises with light loads</p>
+                `;
+            } else if (type === 'power') {
+                content = `
+                    <h2>Muscular Power</h2>
+                    <p><strong>Load:</strong> 30-60% 1RM for upper body exercises; 0-60% 1RM for lower body exercises</p>
+                    <p><strong>Volume:</strong> 1-3 sets of 3-6 repetitions per exercise</p>
+                    <p><strong>Rest period:</strong> 2-3 min for higher intense exercises that use heavier loads; 1-2 minutes between the lower intense exercises with light loads</p>
+                `;
+            } else if (type === 'hypertrophy') {
+                content = `
+                    <h2>Muscular Hypertrophy</h2>
+                    <p><strong>Load:</strong> 70-85% 1RM for novice to intermediate; 70-100% for advanced</p>
+                    <p><strong>Volume:</strong> 1-3 sets of 8-12 repetitions for novice to intermediate; 3-6 sets of 1-12 repetitions for advanced</p>
+                    <p><strong>Rest period:</strong> 2-3 min for higher intense exercises that use heavier loads; 1-2 minutes between the lower intense exercises with light loads</p>
+                `;
+            } else if (type === 'endurance') {
+                content = `
+                    <h2>Muscular Endurance</h2>
+                    <p><strong>Load:</strong> lower than 70% of 1RM</p>
+                    <p><strong>Volume:</strong> 2-4 sets of 10-25 repetitions</p>
+                    <p><strong>Rest period:</strong> 30 seconds to 1-minute between each set</p>
+                `;
+            }
+            document.getElementById('content').innerHTML = content;
+        }
+
+        // ฟังก์ชันคำนวณ Training Load (ปัดทศนิยมตามกฎ)
+        function calculateTrainingLoad() {
+            const percentage = parseFloat(document.getElementById('training-percentage').value);
+
+            if (isNaN(percentage) || percentage <= 0 || percentage > 100) {
+                alert("Please enter a valid percentage.");
+                return;
+            }
+
+            // ใช้ Math.round() เพื่อปัดทศนิยมตามกฎที่ต้องการ
+            const load = Math.round(average1RM * (percentage / 100));
+            document.getElementById('load-result').innerHTML = `
+                <div class="grid-item">
+                    <strong>${percentage}% of 1RM:</strong> ${load} kg
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>
