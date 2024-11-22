@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Methods & 1RM Calculator</title>
+    <title>Responsive Training Methods & 1RM Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* พื้นฐาน */
@@ -116,32 +116,57 @@
             color: #333;
         }
 
-        /* การปรับขนาดมือถือ */
+        /* การปรับขนาดมือถือ (สำหรับอุปกรณ์ที่มีหน้าจอเล็กกว่า 600px) */
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 2em; /* ลดขนาดหัวข้อหลักให้พอดีกับหน้าจอเล็ก */
             }
 
             h2 {
-                font-size: 1.6em;
+                font-size: 1.5em; /* ปรับขนาดหัวข้อรอง */
             }
 
             .grid-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* ให้กริดแสดงแค่คอลัมน์เดียว */
             }
 
             input[type="number"], input[type="text"], select {
-                font-size: 14px;
-                padding: 12px;
+                font-size: 14px; /* ลดขนาดฟอนต์ในช่องกรอกข้อมูล */
+                padding: 12px; /* ลดขนาดช่องกรอกข้อมูล */
             }
 
             button {
                 padding: 12px;
-                font-size: 16px; /* ปรับขนาดตัวอักษรในมือถือ */
+                font-size: 16px; /* ปรับขนาดปุ่มให้พอดีกับมือถือ */
+            }
+        }
+
+        /* การปรับขนาดสำหรับ iPad และแท็บเล็ต (ระหว่าง 600px ถึง 1024px) */
+        @media (max-width: 1024px) and (min-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2.2em; /* ปรับขนาดหัวข้อให้เหมาะสม */
+            }
+
+            h2 {
+                font-size: 1.7em;
+            }
+
+            input[type="number"], input[type="text"], select {
+                font-size: 15px;
+                padding: 13px;
+            }
+
+            button {
+                padding: 13px;
+                font-size: 17px; /* ขนาดปุ่มที่เหมาะสม */
             }
         }
     </style>
