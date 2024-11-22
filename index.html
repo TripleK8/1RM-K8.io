@@ -9,20 +9,21 @@
         /* พื้นฐาน */
         body {
             font-family: 'Sarabun', sans-serif;
-            background-color: #f7f7f7; /* พื้นหลังสีอ่อน */
             margin: 0;
             padding: 0;
+            color: #333;
+            background-color: #f7f7f7;
+            box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             flex-direction: column;
-            color: #333;
         }
 
         /* กล่องหลัก */
         .container {
-            background-color: #ffffff; /* พื้นหลังสีขาว */
+            background-color: #ffffff;
             border-radius: 10px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -35,15 +36,13 @@
 
         h1 {
             text-align: center;
-            color: #333;
             margin-bottom: 20px;
-            font-size: 2.5em;
+            font-size: 2.5rem;
             font-weight: 500;
         }
 
         h2 {
-            color: #333;
-            font-size: 1.8em;
+            font-size: 1.8rem;
             margin-bottom: 10px;
         }
 
@@ -62,7 +61,6 @@
             border-radius: 8px;
             margin-bottom: 20px;
             font-size: 16px;
-            box-sizing: border-box;
             background-color: #f5f5f5;
             color: #333;
         }
@@ -75,21 +73,22 @@
         button {
             width: 100%;
             padding: 14px;
-            background-color: #20B2AA; /* สีฟ้าทะเล */
+            background-color: #20B2AA; /* ฟ้าทะเล */
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 18px; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้น */
-            font-weight: bold; /* เพิ่มความหนาของฟอนต์ */
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s ease;
             margin-bottom: 15px;
         }
 
         button:hover {
-            background-color: #1C8C7B; /* สีฟ้าทะเลเข้มเมื่อ hover */
+            background-color: #1C8C7B; /* ฟ้าทะเลเข้ม */
         }
 
+        /* ส่วนผลลัพธ์ */
         .result, .text-section, .load-result {
             margin-top: 20px;
             padding: 20px;
@@ -111,62 +110,40 @@
             border-radius: 8px;
         }
 
-        .content {
-            font-size: 16px;
-            color: #333;
-        }
-
-        /* การปรับขนาดมือถือ (สำหรับอุปกรณ์ที่มีหน้าจอเล็กกว่า 600px) */
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-
+        /* ปรับขนาดตามอุปกรณ์ */
+        @media (max-width: 768px) {
             h1 {
-                font-size: 2em; /* ลดขนาดหัวข้อหลักให้พอดีกับหน้าจอเล็ก */
+                font-size: 2rem;
             }
-
             h2 {
-                font-size: 1.5em; /* ปรับขนาดหัวข้อรอง */
+                font-size: 1.5rem;
             }
-
             .grid-container {
-                grid-template-columns: 1fr; /* ให้กริดแสดงแค่คอลัมน์เดียว */
+                grid-template-columns: 1fr;
             }
-
             input[type="number"], input[type="text"], select {
-                font-size: 14px; /* ลดขนาดฟอนต์ในช่องกรอกข้อมูล */
-                padding: 12px; /* ลดขนาดช่องกรอกข้อมูล */
+                font-size: 14px;
+                padding: 12px;
             }
-
             button {
                 padding: 12px;
-                font-size: 16px; /* ปรับขนาดปุ่มให้พอดีกับมือถือ */
+                font-size: 16px;
             }
         }
 
-        /* การปรับขนาดสำหรับ iPad และแท็บเล็ต (ระหว่าง 600px ถึง 1024px) */
-        @media (max-width: 1024px) and (min-width: 600px) {
+        @media (max-width: 1024px) and (min-width: 768px) {
             .container {
                 padding: 25px;
             }
-
             h1 {
-                font-size: 2.2em; /* ปรับขนาดหัวข้อให้เหมาะสม */
+                font-size: 2.2rem;
             }
-
             h2 {
-                font-size: 1.7em;
+                font-size: 1.7rem;
             }
-
-            input[type="number"], input[type="text"], select {
-                font-size: 15px;
-                padding: 13px;
-            }
-
             button {
                 padding: 13px;
-                font-size: 17px; /* ขนาดปุ่มที่เหมาะสม */
+                font-size: 17px;
             }
         }
     </style>
@@ -176,7 +153,6 @@
     <div class="container">
         <h1>Training Methods & 1RM Calculator</h1>
 
-        <!-- ส่วนป้อนข้อมูลสำหรับ 1RM & Training Load Calculator -->
         <h2>1RM Calculator</h2>
         <label for="weight">Enter Weight (kg):</label>
         <input type="number" id="weight" placeholder="Enter weight in kg">
@@ -186,10 +162,8 @@
 
         <button onclick="calculateRM()">Calculate 1RM & Training Loads</button>
 
-        <!-- ตารางผลลัพธ์สำหรับ 1RM -->
         <div class="result" id="result"></div>
 
-        <!-- ส่วนเลือกประเภทการฝึก -->
         <h2>Training Methods</h2>
         <button onclick="showContent('strength')">Muscular Strength</button>
         <button onclick="showContent('power')">Muscular Power</button>
@@ -198,7 +172,6 @@
 
         <div class="content" id="content"></div>
 
-        <!-- ตารางผลลัพธ์ทุก % -->
         <div class="section">
             <h3>Training Loads by Percentage</h3>
             <label for="training-percentage">Enter Desired Percentage (%):</label>
@@ -211,9 +184,8 @@
     </div>
 
     <script>
-        let average1RM = 0; // ตัวแปรเก็บค่า Average 1RM
+        let average1RM = 0;
 
-        // ฟังก์ชันคำนวณ 1RM
         function calculateRM() {
             const weight = parseFloat(document.getElementById('weight').value);
             const reps = parseInt(document.getElementById('reps').value);
@@ -238,7 +210,6 @@
             `;
         }
 
-        // ฟังก์ชันแสดงประเภทการฝึก
         function showContent(type) {
             let content = '';
             if (type === 'strength') {
@@ -273,7 +244,6 @@
             document.getElementById('content').innerHTML = content;
         }
 
-        // ฟังก์ชันคำนวณ Training Load (ปัดทศนิยมตามกฎ)
         function calculateTrainingLoad() {
             const percentage = parseFloat(document.getElementById('training-percentage').value);
 
@@ -282,7 +252,6 @@
                 return;
             }
 
-            // ใช้ Math.round() เพื่อปัดทศนิยมตามกฎที่ต้องการ
             const load = Math.round(average1RM * (percentage / 100));
             document.getElementById('load-result').innerHTML = `
                 <div class="grid-item">
